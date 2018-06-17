@@ -1,25 +1,25 @@
 extern crate clap;
 
-use std::process::Command;
+use clap::{App, Arg};
 use std::fs;
 use std::io::{BufWriter, Write};
-use clap::{Arg, App};
 use std::path::Path;
+use std::process::Command;
 
 fn main() {
     let matches = App::new("nene")
-                          .version("0.1.0")
-                          .author("tobi462 <tobi462@gmail.com>")
-                          .about("Remove ANSI escape codes in file.")
-                          .arg(Arg::with_name("path")
-                                .help("input filepath")
-                                .required(true))
-                          .arg(Arg::with_name("output")
-                                .help("output filepath")
-                                .short("o")
-                                .long("out")
-                                .takes_value(true))
-                          .get_matches();
+        .version("0.1.0")
+        .author("tobi462 <tobi462@gmail.com>")
+        .about("Remove ANSI escape codes in file.")
+        .arg(Arg::with_name("path").help("input filepath").required(true))
+        .arg(
+            Arg::with_name("output")
+                .help("output filepath")
+                .short("o")
+                .long("out")
+                .takes_value(true),
+        )
+        .get_matches();
 
     let path = Path::new(matches.value_of("path").unwrap());
     let text = read_as_plaintext(&path);
@@ -31,7 +31,6 @@ fn main() {
 }
 
 fn read_as_plaintext(path: &Path) -> String {
-
     // remove ANSI escape code
     let output = Command::new("sed")
         .arg("-E")
