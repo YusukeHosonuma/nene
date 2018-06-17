@@ -1,10 +1,21 @@
-use std::env;
+extern crate clap;
+
 use std::process::Command;
 use std::fs;
 use std::io::{BufWriter, Write};
+use clap::{Arg, App};
 
 fn main() {
-    let filename = env::args().skip(1).next().unwrap();
+    let matches = App::new("nene")
+                          .version("0.1.0")
+                          .author("tobi462 <tobi462@gmail.com>")
+                          .about("Remove ANSI escape codes in file.")
+                          .arg(Arg::with_name("filename")
+                               .help("input filename")
+                               .required(true))
+                          .get_matches();
+
+    let filename = matches.value_of("filename").unwrap();
 
     let text = read_as_plaintext(&filename);
 
