@@ -3,9 +3,18 @@ nene
 
 Remove ANSI escape codes in file.
 
+output to stdout:
+
 ```shell
 $ nene xxx.log
-output: plain_xxx.log
+...
+```
+
+output to file:
+
+```shell
+$ nene xxx.log --out new_xxx.log
+output: new_xxx.log
 ```
 
 ## Install from Source
