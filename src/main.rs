@@ -11,19 +11,25 @@ fn main() {
                           .author("tobi462 <tobi462@gmail.com>")
                           .about("Remove ANSI escape codes in file.")
                           .arg(Arg::with_name("filename")
-                               .help("input filename")
-                               .required(true))
+                                .help("input filename")
+                                .required(true))
+                          .arg(Arg::with_name("output")
+                                .help("output filename")
+                                .short("o")
+                                .long("out")
+                                .takes_value(true))
                           .get_matches();
+
+    // TODO: support path
 
     let filename = matches.value_of("filename").unwrap();
 
     let text = read_as_plaintext(&filename);
 
-    let filename = new_filename(&filename);
-
-    write_newfile(&filename, &text);
-
-    eprintln!("output: {}", filename);
+    match matches.value_of("output") {
+        None => println!("{}", text),
+        Some(filename) => write_newfile(&filename, &text),
+    }
 }
 
 fn read_as_plaintext(filename: &str) -> String {
@@ -42,8 +48,5 @@ fn read_as_plaintext(filename: &str) -> String {
 fn write_newfile(filename: &str, text: &str) {
     let mut w = BufWriter::new(fs::File::create(filename.clone()).unwrap());
     w.write(text.as_bytes()).unwrap();
-}
-
-fn new_filename(filename: &str) -> String {
-    String::from("plain_") + filename
+    eprintln!("output: {}", filename);
 }
