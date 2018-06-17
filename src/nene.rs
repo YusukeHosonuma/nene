@@ -27,13 +27,11 @@ impl Config {
             )
             .get_matches();
 
-        let output_path = match matches.value_of("output") {
-            None => None,
-            Some(path) => Some(PathBuf::from(path)),
-        };
+        let input_path = PathBuf::from(matches.value_of("path").unwrap());
+        let output_path = matches.value_of("output").map(|path| PathBuf::from(path));
 
         Config {
-            input_path: PathBuf::from(matches.value_of("path").unwrap()),
+            input_path,
             output_path,
         }
     }
