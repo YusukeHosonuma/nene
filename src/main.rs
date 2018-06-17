@@ -1,6 +1,6 @@
 extern crate nene;
 
-use nene::nene::{Config, App};
+use nene::nene::{App, Config};
 
 fn main() {
     let config = Config::new();

@@ -1,9 +1,9 @@
 extern crate clap;
 
 use self::clap::{App as Clap, Arg};
-use std::path::{PathBuf};
 use std::fs;
 use std::io::{BufWriter, Write};
+use std::path::PathBuf;
 use std::process::Command;
 
 pub struct Config {
@@ -74,7 +74,7 @@ impl App {
                 let mut w = BufWriter::new(fs::File::create(path.clone()).unwrap());
                 w.write(text.as_bytes()).unwrap();
                 eprintln!("output: {}", path.display());
-            },
+            }
         }
     }
 }
