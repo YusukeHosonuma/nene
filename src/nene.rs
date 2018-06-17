@@ -1,7 +1,7 @@
 extern crate clap;
 
 use self::clap::{App as Clap, Arg};
-use std::path::{Path, PathBuf};
+use std::path::{PathBuf};
 use std::fs;
 use std::io::{BufWriter, Write};
 use std::process::Command;
@@ -49,15 +49,13 @@ impl App {
     }
 
     pub fn run(&self) {
-        let text = self.read_as_plaintext(&self.config.input_path);
-
-        match self.config.output_path {
-            None => println!("{}", text),
-            Some(ref path) => self.write_newfile(&path, &text),
-        }
+        let text = self.read_as_plaintext();
+        self.output_result(&text);
     }
 
-    fn read_as_plaintext(&self, path: &Path) -> String {
+    fn read_as_plaintext(&self) -> String {
+        let path = &self.config.input_path;
+
         // remove ANSI escape code
         let output = Command::new("sed")
             .arg("-E")
@@ -69,9 +67,14 @@ impl App {
         String::from_utf8(output.stdout).unwrap()
     }
 
-    fn write_newfile(&self, path: &Path, text: &str) {
-        let mut w = BufWriter::new(fs::File::create(path.clone()).unwrap());
-        w.write(text.as_bytes()).unwrap();
-        eprintln!("output: {}", path.display());
+    fn output_result(&self, text: &str) {
+        match self.config.output_path {
+            None => println!("{}", text),
+            Some(ref path) => {
+                let mut w = BufWriter::new(fs::File::create(path.clone()).unwrap());
+                w.write(text.as_bytes()).unwrap();
+                eprintln!("output: {}", path.display());
+            },
+        }
     }
 }
