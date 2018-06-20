@@ -1,7 +1,8 @@
-nene
-====
+# nene
 
 Remove ANSI escape codes in file.
+
+## Usage
 
 output to stdout:
 
@@ -17,7 +18,17 @@ $ nene xxx.log --out new_xxx.log
 output: new_xxx.log
 ```
 
-## Install from Source
+## Install
+
+### Homebrew
+
+```shell
+$ brew tap YusukeHosonuma/nene
+$ brew install nene
+$ nene bitrise.log > plain_bitrise.log
+```
+
+### from Source
 
 ```shell
 $ git clone https://github.com/YusukeHosonuma/nene.git
