@@ -67,12 +67,18 @@ impl App {
 
     fn output_result(&self, text: &str) {
         match self.config.output_path {
-            None => println!("{}", text),
-            Some(ref path) => {
-                let mut w = BufWriter::new(fs::File::create(path.clone()).unwrap());
-                w.write(text.as_bytes()).unwrap();
-                eprintln!("output: {}", path.display());
-            }
+            None => self.output_to_stdout(text),
+            Some(ref path) => self.output_to_file(path, text),
         }
+    }
+
+    fn output_to_stdout(&self, text: &str) {
+        println!("{}", text);
+    }
+
+    fn output_to_file(&self, path: &PathBuf, text: &str) {
+        let mut w = BufWriter::new(fs::File::create(path.clone()).unwrap());
+        w.write(text.as_bytes()).unwrap();
+        eprintln!("output: {}", path.display());
     }
 }
