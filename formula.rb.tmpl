@@ -1,0 +1,12 @@
+require "formula"
+
+class Nene < Formula
+  homepage "https://github.com/YusukeHosonuma/nene"
+  url "https://github.com/YusukeHosonuma/nene/releases/download/{{TAG}}/nene.zip"
+  sha256 "{{SHA256}}"
+  version "{{TAG}}"
+
+  def install
+    bin.install "nene"
+  end
+end
